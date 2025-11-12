@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookStoreProject", "BookStoreProject\BookStoreProject.csproj", "{83AB0DE3-4318-4C19-9BA5-2A7FBA3B3D86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CORE", "CORE\CORE.csproj", "{97A88371-C94A-4EE0-8C2E-294139A08820}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APP", "APP\APP.csproj", "{04F2E3FC-8095-478A-87DA-672E64D87D5E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83AB0DE3-4318-4C19-9BA5-2A7FBA3B3D86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83AB0DE3-4318-4C19-9BA5-2A7FBA3B3D86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83AB0DE3-4318-4C19-9BA5-2A7FBA3B3D86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83AB0DE3-4318-4C19-9BA5-2A7FBA3B3D86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A88371-C94A-4EE0-8C2E-294139A08820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A88371-C94A-4EE0-8C2E-294139A08820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A88371-C94A-4EE0-8C2E-294139A08820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A88371-C94A-4EE0-8C2E-294139A08820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04F2E3FC-8095-478A-87DA-672E64D87D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04F2E3FC-8095-478A-87DA-672E64D87D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04F2E3FC-8095-478A-87DA-672E64D87D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04F2E3FC-8095-478A-87DA-672E64D87D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91B5975F-39C9-4455-A9B8-F3A71B957F5B}
+	EndGlobalSection
+EndGlobal
