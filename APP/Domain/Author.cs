@@ -9,8 +9,8 @@ namespace APP.Domain
         public string FirstName { get; set; }
 
         [Required]
-        public string LastName { get; set; } 
+        public string LastName { get; set; }
+        public List<Book> Books { get; set; } = new List<Book>();
 
-        // public List<Book> Products { get; set; } = new List<Book>();
     }
 }
