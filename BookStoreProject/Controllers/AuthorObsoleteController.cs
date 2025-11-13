@@ -6,13 +6,13 @@ namespace MVC.Controllers
 {
 
     // [Obsolete("Use BookController class instead!")]
-    public class BookObsoleteController : Controller
+    public class AuthorObsoleteController : Controller
     {
         // The service that provides business logic of CRUD operations for authors.
-        private readonly BookObsoleteService _authorService;
+        private readonly AuthorObsoleteService _authorService;
 
 
-        public BookObsoleteController(BookObsoleteService AuthorService)
+        public AuthorObsoleteController(AuthorObsoleteService AuthorService)
         {
             _authorService = AuthorService;
         }

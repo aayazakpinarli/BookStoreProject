@@ -5,11 +5,11 @@ using CORE.APP.Services;
 
 namespace APP.Services
 {
-    public class BookObsoleteService : ServiceBase
+    public class AuthorObsoleteService : ServiceBase
     {
         private readonly Db _db;
 
-        public BookObsoleteService(Db db)
+        public AuthorObsoleteService(Db db)
         {
             _db = db;
         }
