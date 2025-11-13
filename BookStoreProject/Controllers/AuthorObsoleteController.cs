@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookStoreProject.Controllers
 {
 
-    // [Obsolete("Use BookController class instead!")]
     public class AuthorObsoleteController : Controller
     {
-        // The service that provides business logic of CRUD operations for authors.
         private readonly AuthorObsoleteService _authorService;
 
 
