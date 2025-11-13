@@ -5,7 +5,7 @@ namespace CORE.APP.Services
 {
     public abstract class Service<TEntity> : ServiceBase, IDisposable where TEntity : Entity, new()
     {
-        private readonly DbContext _db;
+        protected readonly DbContext _db;
 
 
         protected Service(DbContext db)
