@@ -1,0 +1,46 @@
+﻿@using APP.Models
+@model IEnumerable<GenreResponse>
+
+@{
+    ViewBag.Title = "Genre List";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p class="text-success">
+    @ViewBag.Count
+</p>
+
+@if (TempData["Message"] is not null)
+{
+    <p class="bg-warning text-black">
+        @TempData["Message"]
+    </p>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().GenreName)</th>
+            <th>How Many Books in The Genre</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.GenreName)</td>
+            <td>@Html.DisplayFor(modelItem => item.GenreCount)</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Genre Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<hr />
+<a asp-action="Create" class="btn btn-primary">Create New Genre</a>

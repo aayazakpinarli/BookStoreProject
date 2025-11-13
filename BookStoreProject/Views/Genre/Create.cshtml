@@ -1,0 +1,23 @@
+﻿@using APP.Models
+@model GenreRequest
+
+@{
+    ViewBag.Title = "Create New Genre";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="GenreName"></label>
+        <input asp-for="GenreName" class="form-control" />
+        <span asp-validation-for="GenreName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
