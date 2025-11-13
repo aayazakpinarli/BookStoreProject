@@ -1,5 +1,7 @@
 using APP.Domain;
+using APP.Models;
 using APP.Services;
+using CORE.APP.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString(nameof(Db));
 builder.Services.AddDbContext<DbContext, Db>(options => options.UseSqlite(connectionString));
 
-builder.Services.AddScoped<BookObsoleteService>();
+builder.Services.AddScoped<IService<BookRequest, BookResponse>, BookService>();
+builder.Services.AddScoped<IService<AuthorRequest, AuthorResponse>, AuthorService>();
+builder.Services.AddScoped<IService<GenreRequest, GenreResponse>, GenreService>();
+
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllersWithViews();
 
@@ -32,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=BookObsolete}/{action=Index}/{id?}");
+    pattern: "{controller=Genre}/{action=Index}/{id?}");
 
 app.Run();
