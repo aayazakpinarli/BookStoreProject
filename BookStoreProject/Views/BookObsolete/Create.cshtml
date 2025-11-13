@@ -1,0 +1,43 @@
+﻿@using APP.Models
+@model AuthorRequest
+
+@{
+    ViewBag.Title = "Create Author";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p class="text-success">
+    @ViewBag.Message
+</p>
+
+<form asp-action="Create">
+
+    <div class="row">
+        <div class="col-2">
+            <label asp-for="FirstName"></label> 
+        </div>
+        <div class="col-10">
+            <input asp-for="FirstName" class="form-control" /> 
+            <span asp-validation-for="FirstName" class="text-danger"></span> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <label asp-for="LastName"></label>
+        </div>
+        <div class="col-10">
+            <textarea asp-for="LastName" class="form-control" rows="3"></textarea> 
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-2 col-10">
+            <button type="submit" class="btn btn-info">Create</button>
+            &nbsp;
+            <button type="reset" class="btn btn-outline-info">Reset</button>
+            &nbsp;
+            <a asp-action="Index" class="btn btn-outline-secondary">Back to Author List</a>
+        </div>
+    </div>
+</form>

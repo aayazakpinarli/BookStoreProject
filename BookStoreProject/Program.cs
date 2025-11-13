@@ -1,10 +1,14 @@
 using APP.Domain;
+using APP.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the IoC container.
-builder.Services.AddDbContext<DbContext, Db>(options => options.UseSqlite("Db")); // TODO: define connection string
+var connectionString = builder.Configuration.GetConnectionString(nameof(Db));
+builder.Services.AddDbContext<DbContext, Db>(options => options.UseSqlite(connectionString));
+
+builder.Services.AddScoped<BookObsoleteService>();
 
 builder.Services.AddControllersWithViews();
 
@@ -25,8 +29,9 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=BookObsolete}/{action=Index}/{id?}");
 
 app.Run();
