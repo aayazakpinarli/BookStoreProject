@@ -28,8 +28,13 @@ namespace APP.Services
 
         public CommandResponse Create(AuthorRequest request)
         {
-            if (_db.Authors.Any(authorEntity => authorEntity.FirstName == request.FirstName.Trim()))
-                return Error("Category with same title exists!");
+            if (_db.Authors.Any(authorEntity =>
+        authorEntity.FirstName.Trim() == request.FirstName.Trim() &&
+        authorEntity.LastName.Trim() == request.LastName.Trim()))
+            {
+                return Error("Author with the same full name already exists!");
+            }
+
             var entity = new Author
             {
                 FirstName = request.FirstName.Trim(),

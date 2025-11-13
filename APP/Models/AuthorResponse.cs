@@ -11,5 +11,7 @@ namespace APP.Models
         [DisplayName("Author Lastname")]
         public string LastName { get; set; }
 
+        [DisplayName("Author")]
+        public string FullName { get; internal set; }
     }
 }

@@ -2,7 +2,7 @@
 using APP.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MVC.Controllers
+namespace BookStoreProject.Controllers
 {
 
     // [Obsolete("Use BookController class instead!")]
