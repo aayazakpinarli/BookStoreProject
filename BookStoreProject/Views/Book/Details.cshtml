@@ -1,0 +1,86 @@
+﻿@using APP.Models
+@model BookResponse
+
+@{
+    ViewBag.Title = "Book Details";
+}
+
+<h1>@ViewBag.Title</h1>
+
+@if (Model is null)
+{
+    <p class="text-danger">Book not found!</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <tr>
+            <th>Book Name</th>
+            <td>@Model.BookName</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>@Model.Description</td>
+        </tr>
+        <tr>
+            <th>Number Of Pages</th>
+            <td>@Model.NumberOfPages</td>
+        </tr>
+        <tr>
+            <th>Stock Amount</th>
+            <td>@Model.StockAmountF</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>@Model.PriceF</td>
+        </tr>
+        <tr>
+            <th>Published On</th>
+            <td>@Model.PublishedOn.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>Top Seller</th>
+            <td>@(Model.IsTopSeller ? "Yes" : "No")</td>
+        </tr>
+        <tr>
+            <th>Authors</th>
+            <td>
+                @if (Model.Authors != null && Model.Authors.Any())
+                {
+                    <ul>
+                        @foreach (var author in Model.Authors)
+                        {
+                            <li>@author</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>No Authors</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>Genres</th>
+            <td>
+                @if (Model.BookGenres != null && Model.BookGenres.Any())
+                {
+                    <ul>
+                        @foreach (var genre in Model.BookGenres)
+                        {
+                            <li>@genre</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <span>No Genres</span>
+                }
+            </td>
+        </tr>
+    </table>
+
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+}

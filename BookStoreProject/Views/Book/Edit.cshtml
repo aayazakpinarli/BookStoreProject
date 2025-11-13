@@ -1,0 +1,72 @@
+﻿@using APP.Models
+@model BookRequest
+
+@{
+    ViewBag.Title = "Edit Book";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="BookName"></label>
+        <input asp-for="BookName" class="form-control" />
+        <span asp-validation-for="BookName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NumberOfPages"></label>
+        <input asp-for="NumberOfPages" class="form-control" />
+        <span asp-validation-for="NumberOfPages" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PublishedOn"></label>
+        <input asp-for="PublishedOn" type="date" class="form-control" />
+        <span asp-validation-for="PublishedOn" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BookPrice"></label>
+        <input asp-for="BookPrice" class="form-control" />
+        <span asp-validation-for="BookPrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StockAmount"></label>
+        <input asp-for="StockAmount" class="form-control" />
+        <span asp-validation-for="StockAmount" class="text-danger"></span>
+    </div>
+
+    <div class="form-group form-check">
+        <input asp-for="IsTopSeller" type="checkbox" class="form-check-input" />
+        <label asp-for="IsTopSeller" class="form-check-label"></label>
+    </div>
+
+    <div class="form-group">
+        <label>Authors</label>
+        <select asp-for="AuthorIds" asp-items="ViewBag.AuthorIds" class="form-control" multiple="multiple">
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Genres</label>
+        <select asp-for="GenreIds" asp-items="ViewBag.GenreIds" class="form-control" multiple="multiple">
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

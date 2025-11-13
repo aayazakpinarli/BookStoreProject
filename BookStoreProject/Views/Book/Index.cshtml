@@ -1,0 +1,62 @@
+﻿@using APP.Models
+@model IEnumerable<BookResponse>
+
+@{
+    ViewBag.Title = "Books List";
+}
+
+<h1>@ViewBag.Title</h1>
+
+<p class="text-success">
+    @ViewBag.Count
+</p>
+
+@if (TempData["Message"] is not null)
+{
+    <p class="bg-warning text-black">
+        @TempData["Message"]
+    </p>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.First().BookName)</th>
+            <th>Authors</th>
+            <th>Genres</th>
+            <th>@Html.DisplayNameFor(model => model.First().PriceF)</th>
+            <th>@Html.DisplayNameFor(model => model.First().StockAmountF)</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.BookName)</td>
+            <td>
+                @foreach(var author in item.Authors)
+                {
+                    @author<br />
+                }
+            </td>
+            <td>
+                @foreach(var genre in item.BookGenres)
+                {
+                    @genre<br />
+                }
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.PriceF)</td>
+            <td>@Html.DisplayFor(modelItem => item.StockAmountF)</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Book Details</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<hr />
+<a asp-action="Create" class="btn btn-primary">Create New Book</a>
