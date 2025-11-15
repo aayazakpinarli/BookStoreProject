@@ -1,0 +1,57 @@
+﻿@using APP.Models
+@model RoleResponse
+
+@{
+    var containerDivClass = "container";
+    ViewData["Title"] = "Role Details";
+}
+
+<div class="@containerDivClass">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+</div>
+
+@if (Model is not null)
+{
+    <div class="@containerDivClass">
+
+        @if (TempData["Message"] is not null)
+        {
+            <p class="text-danger">
+                @TempData["Message"]
+            </p>
+        }
+
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Name)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.UserCount)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.UserCount)
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Users)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.Users)
+            </div>
+        </div>
+
+        <hr />
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>&nbsp;|&nbsp;
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>&nbsp;|&nbsp;
+        <a asp-action="Index">Back to List</a>
+    </div>
+}

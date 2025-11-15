@@ -1,0 +1,45 @@
+﻿@using APP.Models
+@model RoleRequest
+
+@{
+    var containerDivClass = "container";
+    ViewData["Title"] = "Create Role";
+}
+
+<div class="@containerDivClass">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+</div>
+
+<div class="@containerDivClass">
+
+    @if (TempData["Message"] is not null)
+    {
+        <p class="text-danger">
+            @TempData["Message"]
+        </p>
+    }
+
+    <form asp-action="Create" autocomplete="off">
+        @Html.AntiForgeryToken()
+
+        <div class="row mb-3">
+            <label asp-for="RoleName" class="col-2 col-form-label fw-bold"></label>
+            <div class="col-10">
+                <input asp-for="RoleName" class="form-control" />
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row mb-3">
+            <div class="offset-2 col-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+                &nbsp;&nbsp;
+                <button type="reset" class="btn btn-outline-primary">Reset</button>
+                &nbsp;&nbsp;
+                <a asp-action="Index">Back to List</a>
+            </div>
+        </div>
+    </form>
+</div>
