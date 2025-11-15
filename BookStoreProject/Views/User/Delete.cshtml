@@ -1,0 +1,64 @@
+﻿@using APP.Models
+@model UserResponse
+
+@{
+    var containerDivClass = "container";
+    ViewData["Title"] = "User Delete";
+}
+
+<div class="@containerDivClass">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+</div>
+
+@if (Model is not null)
+{
+<div class="@containerDivClass">
+
+    @if (TempData["Message"] is not null)
+    {
+        <p class="text-danger">@TempData["Message"]</p>
+    }
+
+    <h3 class="text-danger">Are you sure you want to delete this user?</h3>
+    <hr />
+
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(m => m.UserName)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(m => m.UserName)
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(m => m.FirstName)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(m => m.FirstName)
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(m => m.LastName)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(m => m.LastName)
+        </div>
+    </div>
+
+    <hr />
+
+    <form asp-action="Delete" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn btn-danger">Yes</button>
+        &nbsp;&nbsp;
+        <a asp-action="Index" class="btn btn-outline-danger">No</a>
+    </form>
+</div>
+}
