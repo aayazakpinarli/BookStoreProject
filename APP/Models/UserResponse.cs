@@ -57,5 +57,7 @@ namespace APP.Models
         public string Country { get; set; }
 
         public string City { get; set; }
+
+        public List<string> Books { get; set; }
     }
 }

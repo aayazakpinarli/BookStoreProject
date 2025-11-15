@@ -1,5 +1,6 @@
 ﻿using APP.Domain;
 using APP.Models;
+using CORE.APP.Domain;
 using CORE.APP.Models;
 using CORE.APP.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace APP.Services
         {
             return base.Query(isNoTracking)
                 .Include(u => u.UserRoles).ThenInclude(ur => ur.Role)
+                .Include(u => u.UserBooks).ThenInclude(ub => ub.Book)
                 .Include(u => u.Country)
                 .Include(u => u.City)
                 .OrderByDescending(u => u.IsActive).ThenBy(u => u.RegistrationDate).ThenBy(u => u.UserName);
@@ -38,7 +40,8 @@ namespace APP.Services
                 Address = request.Address?.Trim(),
                 RoleIds = request.RoleIds,
                 CountryId = request.CountryId,
-                CityId = request.CityId
+                CityId = request.CityId,
+                BookIds = request.BookIds
             };
             Create(entity);
             return Success("User created successfully.", entity.Id);
@@ -49,8 +52,10 @@ namespace APP.Services
             var entity = Query(false).SingleOrDefault(u => u.Id == id); 
             if (entity is null)
                 return Error("User not found!");
+
             Delete(entity.UserRoles);
             Delete(entity);
+
             return Success("User deleted successfully.", entity.Id);
         }
 
@@ -72,7 +77,8 @@ namespace APP.Services
                 Address = entity.Address,
                 RoleIds = entity.RoleIds,
                 CountryId = entity.CountryId,
-                CityId = entity.CityId
+                CityId = entity.CityId,
+                BookIds = entity.BookIds
             };
         }
 
@@ -104,6 +110,7 @@ namespace APP.Services
                 BirthDateF = entity.BirthDate.HasValue ? entity.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
                 RegistrationDateF = entity.RegistrationDate.ToString("MM/dd/yyyy"),
                 Roles = entity.UserRoles.Select(ur => ur.Role.RoleName).ToList(),
+                Books = entity.UserBooks.Select(ub => ub.Book.BookName).ToList(),
                 Country = entity.Country != null ? entity.Country.CountryName : string.Empty,
                 City = entity.City != null ? entity.City.CityName : string.Empty
             };
@@ -128,14 +135,16 @@ namespace APP.Services
                 CountryId = u.CountryId,
                 CityId = u.CityId,
 
+
                 IsActiveF = u.IsActive ? "Active" : "Inactive",
                 FullName = u.FirstName + " " + u.LastName,
                 GenderF = u.Gender.ToString(), 
                 BirthDateF = u.BirthDate.HasValue ? u.BirthDate.Value.ToString("MM/dd/yyyy") : string.Empty,
                 RegistrationDateF = u.RegistrationDate.ToString("MM/dd/yyyy"),
                 Roles = u.UserRoles.Select(ur => ur.Role.RoleName).ToList(),
+                Books = u.UserBooks.Select(ub => ub.Book.BookName).ToList(),
                 Country = u.Country != null ? u.Country.CountryName : string.Empty,
-                City = u.City != null ? u.City.CityName : string.Empty
+                City = u.City != null ? u.City.CityName : string.Empty,
             }).ToList();
         }
 
@@ -146,7 +155,16 @@ namespace APP.Services
             var entity = Query(false).SingleOrDefault(u => u.Id == request.Id);
             if (entity is null)
                 return Error("User not found!");
+
+            // delete the relational BookGenre 
+            Delete(entity.UserBooks);
+            entity.UserBooks = request.BookIds
+                .Select(id => new UserBook { BookId = id })
+                .ToList();
+
             Delete(entity.UserRoles);
+
+            //update
             entity.UserName = request.UserName;
             entity.Password = request.Password;
             entity.FirstName = request.FirstName?.Trim();
@@ -158,6 +176,7 @@ namespace APP.Services
             entity.RoleIds = request.RoleIds;
             entity.CountryId = request.CountryId;
             entity.CityId = request.CityId;
+            entity.BookIds = request.BookIds;
             Update(entity);
             return Success("User updated successfully.", entity.Id);
         }

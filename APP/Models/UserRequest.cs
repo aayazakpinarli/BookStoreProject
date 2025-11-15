@@ -43,5 +43,9 @@ namespace APP.Models
 
         [DisplayName("City")]
         public int? CityId { get; set; }
+
+        [DisplayName("Books")]
+        public List<int> BookIds { get; set; } = new List<int>();
+
     }
 }

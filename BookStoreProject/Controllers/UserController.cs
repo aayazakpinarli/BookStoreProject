@@ -1,6 +1,8 @@
 ﻿#nullable disable
+using APP.Domain;
 using APP.Models;
 using APP.Services;
+using CORE.APP.Models;
 using CORE.APP.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,23 +16,27 @@ namespace BookStoreProject.Controllers
         private readonly IService<CityRequest, CityResponse> _cityService;
         private readonly IService<CountryRequest, CountryResponse> _countryService;
         private readonly IService<RoleRequest, RoleResponse> _RoleService;
+        private readonly IService<BookRequest, BookResponse> _bookService;
 
         public UserController(
             IService<UserRequest, UserResponse> userService,
             IService<CityRequest, CityResponse> cityService,
             IService<CountryRequest, CountryResponse> countryService,
-            IService<RoleRequest, RoleResponse> RoleService
+            IService<RoleRequest, RoleResponse> RoleService,
+            IService<BookRequest, BookResponse> bookService
         )
         {
             _userService = userService;
             _cityService = cityService;
             _countryService = countryService;
             _RoleService = RoleService;
+            _bookService = bookService;
         }
 
         private void SetViewData()
         {
-            ViewBag.RoleIds = new MultiSelectList(_RoleService.List(), "Id", "Name");
+            ViewData["RoleIds"] = new MultiSelectList(_RoleService.List(), "Id", "Name");
+            ViewData["BookIds"] = new MultiSelectList(_bookService.List(), "Id", "BookName");
         }
 
         private void SetTempData(string message, string key = "Message")
@@ -40,8 +46,6 @@ namespace BookStoreProject.Controllers
 
         public IActionResult Index()
         {
-            Trace.WriteLine("Hello");
-            Debug.WriteLine("This is a log");
             var list = _userService.List();
             return View(list);
         }
@@ -49,6 +53,11 @@ namespace BookStoreProject.Controllers
         public IActionResult Details(int id)
         {
             var item = _userService.Item(id);
+            if (item == null)
+            {
+                SetTempData("User is not found!");
+                return RedirectToAction(nameof(Index));
+            }
             return View(item);
         }
 
@@ -84,6 +93,11 @@ namespace BookStoreProject.Controllers
         public IActionResult Edit(int id)
         {
             var item = _userService.Edit(id);
+            if (item == null)
+            {
+                SetTempData("User is not found!");
+                return RedirectToAction(nameof(Index));
+            }
 
             SetViewData();
             ViewData["CountryId"] = new SelectList(_countryService.List(), "Id", "CountryName", item.CountryId);
@@ -120,6 +134,11 @@ namespace BookStoreProject.Controllers
         public IActionResult Delete(int id)
         {
             var item = _userService.Item(id);
+            if (item == null)
+            {
+                SetTempData("User is not found!");
+                return RedirectToAction(nameof(Index));
+            }
             return View(item);
         }
         
@@ -129,7 +148,6 @@ namespace BookStoreProject.Controllers
         {
             var response = _userService.Delete(id);
             SetTempData(response.Message);
-
             return RedirectToAction(nameof(Index));
         }
     }

@@ -40,11 +40,21 @@ namespace APP.Domain
 
         public List<UserRole> UserRoles { get; set; } = new List<UserRole>();
 
+        public List<UserBook> UserBooks { get; set; } = new List<UserBook>();
+
         [NotMapped]
         public List<int> RoleIds
         {
             get => UserRoles.Select(userRoleEntity => userRoleEntity.RoleId).ToList();
             set => UserRoles = value?.Select(roleId => new UserRole() { RoleId = roleId }).ToList();
         }
+
+        [NotMapped]
+        public List<int> BookIds
+        {
+            get => UserBooks.Select(userBookEntity => userBookEntity.BookId).ToList();
+            set => UserBooks = value?.Select(bookId => new UserBook() { BookId = bookId }).ToList();
+        }
+
     }
 }
