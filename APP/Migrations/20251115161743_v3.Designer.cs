@@ -3,6 +3,7 @@ using System;
 using APP.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APP.Migrations
 {
     [DbContext(typeof(Db))]
-    partial class DbModelSnapshot : ModelSnapshot
+    [Migration("20251115161743_v3")]
+    partial class v3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.22");
@@ -36,7 +39,7 @@ namespace APP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors", (string)null);
+                    b.ToTable("Authors");
                 });
 
             modelBuilder.Entity("APP.Domain.Book", b =>
@@ -79,7 +82,7 @@ namespace APP.Migrations
                     b.HasIndex("BookName")
                         .IsUnique();
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("APP.Domain.BookAuthor", b =>
@@ -103,7 +106,7 @@ namespace APP.Migrations
 
                     b.HasIndex("BookId");
 
-                    b.ToTable("BookAuthor", (string)null);
+                    b.ToTable("BookAuthor");
                 });
 
             modelBuilder.Entity("APP.Domain.BookGenre", b =>
@@ -127,7 +130,7 @@ namespace APP.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("BookGenres", (string)null);
+                    b.ToTable("BookGenres");
                 });
 
             modelBuilder.Entity("APP.Domain.City", b =>
@@ -154,7 +157,7 @@ namespace APP.Migrations
 
                     b.HasIndex("CountryId");
 
-                    b.ToTable("Cities", (string)null);
+                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("APP.Domain.Country", b =>
@@ -176,7 +179,7 @@ namespace APP.Migrations
                     b.HasIndex("CountryName")
                         .IsUnique();
 
-                    b.ToTable("Countries", (string)null);
+                    b.ToTable("Countries");
                 });
 
             modelBuilder.Entity("APP.Domain.Genre", b =>
@@ -198,7 +201,7 @@ namespace APP.Migrations
                     b.HasIndex("GenreName")
                         .IsUnique();
 
-                    b.ToTable("Genres", (string)null);
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("APP.Domain.Role", b =>
@@ -220,7 +223,7 @@ namespace APP.Migrations
                     b.HasIndex("RoleName")
                         .IsUnique();
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("APP.Domain.User", b =>
@@ -282,7 +285,7 @@ namespace APP.Migrations
 
                     b.HasIndex("FirstName", "LastName");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("APP.Domain.UserBook", b =>
@@ -311,7 +314,7 @@ namespace APP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserBook", (string)null);
+                    b.ToTable("UserBook");
                 });
 
             modelBuilder.Entity("APP.Domain.UserRole", b =>
@@ -335,7 +338,7 @@ namespace APP.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("APP.Domain.BookAuthor", b =>

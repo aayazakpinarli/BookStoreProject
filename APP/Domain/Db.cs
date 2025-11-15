@@ -88,22 +88,20 @@ namespace APP.Domain
                 .HasOne(bookGenreEntity => bookGenreEntity.Genre) 
                 .WithMany(genreEntity => genreEntity.BookGenres) 
                 .HasForeignKey(bookGenreEntity => bookGenreEntity.GenreId) 
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<Book>()
-                .HasMany(bookEntity => bookEntity.Authors) 
-                .WithMany(authorEntity => authorEntity.Books) 
-                .UsingEntity<Dictionary<string, object>>(
-                    "BookAuthor", 
-                    j => j.HasOne<Author>()
-                          .WithMany()
-                          .HasForeignKey("AuthorId")
-                          .OnDelete(DeleteBehavior.Cascade),
-                    j => j.HasOne<Book>()
-                          .WithMany()
-                          .HasForeignKey("BookId")
-                          .OnDelete(DeleteBehavior.Cascade)
-                );
+            modelBuilder.Entity<UserBook>()
+                .HasOne(userBookEntity => userBookEntity.Book)
+                .WithMany(userEntity => userEntity.UserBooks)
+                .HasForeignKey(userBookEntity => userBookEntity.BookId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UserBook>()
+                .HasOne(userBookEntity => userBookEntity.User)
+                .WithMany(bookEntity => bookEntity.UserBooks)
+                .HasForeignKey(userBookEntity => userBookEntity.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }
