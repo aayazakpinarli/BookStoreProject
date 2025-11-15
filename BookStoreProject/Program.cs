@@ -13,6 +13,10 @@ builder.Services.AddDbContext<DbContext, Db>(options => options.UseSqlite(connec
 builder.Services.AddScoped<IService<BookRequest, BookResponse>, BookService>();
 builder.Services.AddScoped<IService<AuthorRequest, AuthorResponse>, AuthorService>();
 builder.Services.AddScoped<IService<GenreRequest, GenreResponse>, GenreService>();
+builder.Services.AddScoped<IService<UserRequest, UserResponse>, UserService>();
+builder.Services.AddScoped<IService<RoleRequest, RoleResponse>, RoleService>();
+builder.Services.AddScoped<IService<CityRequest, CityResponse>, CityService>();
+builder.Services.AddScoped<IService<CountryRequest, CountryResponse>, CountryService>();
 
 
 builder.Services.AddHttpContextAccessor();
@@ -39,6 +43,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Genre}/{action=Index}/{id?}");
+    pattern: "{controller=Book}/{action=Index}/{id?}");
 
 app.Run();
