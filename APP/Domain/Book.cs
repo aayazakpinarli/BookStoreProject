@@ -17,9 +17,11 @@ namespace APP.Domain
         public int AuthorId { get; set; }
         public int? StockAmount { get; set; }
 
-        public List<Author> Authors { get; set; } = new List<Author>();
+        public List<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
 
         public List<BookGenre> BookGenres { get; set; } = new List<BookGenre>();
+
+        public List<UserBook> UserBooks { get; set; } = new List<UserBook>();
 
         [NotMapped]
         public List<int> GenreIds
@@ -28,8 +30,12 @@ namespace APP.Domain
             set => BookGenres = value?.Select(genreId => new BookGenre() { GenreId = genreId }).ToList();
         }
 
-
-        
+        [NotMapped]
+        public List<int> AuthorIds
+        {
+            get => BookAuthors.Select(bookAuthorEntity => bookAuthorEntity.AuthorId).ToList();
+            set => BookAuthors = value?.Select(authorId => new BookAuthor() { AuthorId = authorId }).ToList();
+        }
 
     }
 }

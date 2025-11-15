@@ -1,5 +1,6 @@
 ﻿using APP.Domain;
 using APP.Models;
+using CORE.APP.Domain;
 using CORE.APP.Models;
 using CORE.APP.Services;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ namespace APP.Services
         protected override IQueryable<Book> Query(bool isNoTracking = true)
         {
             return base.Query(isNoTracking) // will return Books DbSet
-                .Include(book => book.Authors)
+                .Include(book => book.BookAuthors).ThenInclude(bookAuthor => bookAuthor.Author)
                 .Include(book => book.BookGenres).ThenInclude(bookGenre => bookGenre.Genre)
                 .OrderByDescending(book => book.BookName)
                 .ThenByDescending(book => book.PublishedOn);
@@ -38,7 +39,7 @@ namespace APP.Services
                 PriceF = book.Price.ToString("C2"),
                 StockAmountF = (book.StockAmount ?? 0).ToString(),
                 BookGenres = book.BookGenres.Select(bg => bg.Genre.GenreName).ToList(),
-                Authors = book.Authors.Select(a => $"{a.FirstName} {a.LastName}").ToList(),
+                Authors = book.BookAuthors.Select(ba => ba.Author.LastName).ToList()
             }).ToList();
         }
 
@@ -61,7 +62,7 @@ namespace APP.Services
                 Price = entity.Price,
                 PriceF = entity.Price.ToString("C2"),
                 StockAmountF = (entity.StockAmount ?? 0).ToString(),
-                Authors = entity.Authors.Select(a => $"{a.FirstName} {a.LastName}").ToList(),
+                Authors = entity.BookAuthors.Select(ba => ba.Author.LastName).ToList(),
                 BookGenres = entity.BookGenres.Select(bg => bg.Genre.GenreName).ToList()
             };
         }
@@ -82,7 +83,7 @@ namespace APP.Services
                 PublishedOn = entity.PublishedOn,
                 IsTopSeller = entity.IsTopSeller,
                 BookPrice = entity.Price,
-                AuthorIds = entity.Authors.Select(a => a.Id).ToList(),
+                AuthorIds = entity.BookAuthors.Select(a => a.AuthorId).ToList(),
                 GenreIds = entity.BookGenres.Select(bg => bg.GenreId).ToList()
             };
         }
@@ -106,11 +107,9 @@ namespace APP.Services
 
             if (request.AuthorIds != null && request.AuthorIds.Any())
             {
-                var bookAuthors = _db.Set<Author>()
-                    .Where(a => request.AuthorIds.Contains(a.Id))
+                entity.BookAuthors = request.AuthorIds
+                    .Select(id => new BookAuthor { AuthorId = id })
                     .ToList();
-
-                entity.Authors.AddRange(bookAuthors);
             }
 
             if (request.GenreIds != null && request.GenreIds.Any())
@@ -136,18 +135,16 @@ namespace APP.Services
             if (entity is null)
                 return Error("Book is not found!");
 
-            // delete the relational BookGenre 
+            // delete the relations 
             Delete(entity.BookGenres); 
             entity.BookGenres = request.GenreIds
                 .Select(id => new BookGenre { GenreId = id })
                 .ToList();
 
-            // clear authors
-            entity.Authors.Clear();
-            var authors = _db.Set<Author>()
-                .Where(a => request.AuthorIds.Contains(a.Id))
+            Delete(entity.BookAuthors);
+            entity.BookAuthors = request.AuthorIds
+                .Select(id => new BookAuthor { AuthorId = id })
                 .ToList();
-            entity.Authors.AddRange(authors);
 
             // update 
             entity.BookName = request.BookName.Trim();
@@ -170,11 +167,8 @@ namespace APP.Services
             if (entity is null)
                 return Error("Book is not found!");
 
-            // Remove Authors relationships
-            entity.Authors.Clear();
-
+            Delete(entity.BookAuthors);
             Delete(entity.BookGenres);
-
             Delete(entity); 
 
             return Success("Book is deleted successfully.", entity.Id);
@@ -190,7 +184,7 @@ namespace APP.Services
                 query = query.Where(b => b.BookName.Contains(request.BookName));
 
             if (request.AuthorIds != null && request.AuthorIds.Any())
-                query = query.Where(b => b.Authors.Any(a => request.AuthorIds.Contains(a.Id)));
+                query = query.Where(b => b.BookAuthors.Any(ba => request.AuthorIds.Contains(ba.Id)));
 
             if (request.GenreIds != null && request.GenreIds.Any())
                 query = query.Where(b => b.BookGenres.Any(bg => request.GenreIds.Contains(bg.GenreId)));
@@ -200,9 +194,6 @@ namespace APP.Services
 
             if (request.MaxPrice.HasValue)
                 query = query.Where(b => b.Price <= request.MaxPrice.Value);
-
-            if (request.PublishedFrom.HasValue)
-                query = query.Where(b => b.PublishedOn >= request.PublishedFrom.Value);
 
             if (request.PublishedTo.HasValue)
                 query = query.Where(b => b.PublishedOn <= request.PublishedTo.Value);
@@ -227,7 +218,7 @@ namespace APP.Services
                     IsTopSeller = b.IsTopSeller,
                     PriceF = b.Price.ToString("C2"),
                     StockAmountF = (b.StockAmount ?? 0).ToString(),
-                    Authors = b.Authors.Select(a => $"{a.FirstName} {a.LastName}").ToList(),
+                    Authors = b.BookAuthors.Select(a => a.Author.LastName).ToList(),
                     BookGenres = b.BookGenres.Select(bg => bg.Genre.GenreName).ToList()
                 })
                 .ToList();

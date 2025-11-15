@@ -1,8 +1,9 @@
 ﻿#nullable disable
+using APP.Models;
+using APP.Services;
+using CORE.APP.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CORE.APP.Services;
-using APP.Models;
 
 namespace BookStoreProject.Controllers
 {
@@ -28,6 +29,18 @@ namespace BookStoreProject.Controllers
         {
             ViewData["AuthorIds"] = new MultiSelectList(_authorService.List(), "Id", "FullName");
             ViewData["GenreIds"] = new MultiSelectList(_genreService.List(), "Id", "GenreName");
+        }
+
+        private void SetViewData(BookRequest request = null)
+        {
+            var authors = _authorService.List();  
+            var genres = _genreService.List(); 
+
+            ViewBag.AuthorIds = new MultiSelectList(authors, "Id", "UserName",
+                request?.AuthorIds);   
+
+            ViewBag.GenreIds = new MultiSelectList(genres, "Id", "GenreName",
+                request?.GenreIds);
         }
 
 
@@ -76,7 +89,7 @@ namespace BookStoreProject.Controllers
                 }
                 ModelState.AddModelError("", response.Message);
             }
-            SetViewData();
+            SetViewData(request);
             return View(request);
         }
 

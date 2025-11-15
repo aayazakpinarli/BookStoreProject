@@ -13,5 +13,9 @@ namespace APP.Models
 
         [DisplayName("Author")]
         public string FullName { get; internal set; }
+
+        [DisplayName("Book Count")]
+        public int BookCount { get; set; }
+        public string Books { get; set; }
     }
 }
