@@ -1,0 +1,47 @@
+﻿@using APP.Models
+@model CountryResponse
+
+@{
+    var containerDivClass = "container";
+    ViewData["Title"] = "Country Details";
+}
+
+<div class="@containerDivClass">
+    <h1>@ViewData["Title"]</h1>
+    <hr />
+</div>
+
+@if (Model is not null)
+{
+    <div class="@containerDivClass">
+        @if (TempData["Message"] is not null)
+        {
+            <p class="text-danger">
+                @TempData["Message"]
+            </p>
+        }
+
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.CountryName)
+            </div>
+            <div class="col-10">
+                @Html.DisplayFor(model => model.CountryName)
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-2 fw-bold">
+                @Html.DisplayNameFor(model => model.Cities)
+            </div>
+            <div class="col-10">
+                @Html.Raw(string.Join("<br>", Model.Cities.Select(city => city.CityName)))
+            </div>
+        </div>
+
+        <hr />
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a>&nbsp;|&nbsp;
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>&nbsp;|&nbsp;
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
