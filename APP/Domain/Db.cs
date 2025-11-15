@@ -55,46 +55,46 @@ namespace APP.Domain
                 .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a Country entity if there are related City entities
 
             modelBuilder.Entity<User>()
-                .HasOne(userEntity => userEntity.Country) // each User entity has one related Country entity
-                .WithMany(countryEntity => countryEntity.Users) // each Country entity has many related User entities
-                .HasForeignKey(userEntity => userEntity.CountryId) // FK in the User entity references PK in Country entity
-                .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a Country entity if there are related User entities
+                .HasOne(userEntity => userEntity.Country) 
+                .WithMany(countryEntity => countryEntity.Users) 
+                .HasForeignKey(userEntity => userEntity.CountryId) 
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<User>()
-                .HasOne(userEntity => userEntity.City) // each User entity has one related City entity
-                .WithMany(cityEntity => cityEntity.Users) // each City entity has many related User entities
-                .HasForeignKey(userEntity => userEntity.CityId) // FK in the User entity references PK in City entity
-                .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a City entity if there are related User 
+                .HasOne(userEntity => userEntity.City) 
+                .WithMany(cityEntity => cityEntity.Users) 
+                .HasForeignKey(userEntity => userEntity.CityId) 
+                .OnDelete(DeleteBehavior.NoAction); 
 
             modelBuilder.Entity<UserRole>()
-                .HasOne(userRoleEntity => userRoleEntity.User) // each UserRole entity has one related User entity
-                .WithMany(userEntity => userEntity.UserRoles) // each User entity has many related UserRole entities
-                .HasForeignKey(userRoleEntity => userRoleEntity.UserId) // FK in the UserRole entity references PK in the User entity
-                .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a User entity if there are related UserRole entitie
+                .HasOne(userRoleEntity => userRoleEntity.User)
+                .WithMany(userEntity => userEntity.UserRoles)
+                .HasForeignKey(userRoleEntity => userRoleEntity.UserId) 
+                .OnDelete(DeleteBehavior.NoAction); 
 
             modelBuilder.Entity<UserRole>()
-                .HasOne(userRoleEntity => userRoleEntity.Role) // each UserRole entity has one related Role entity
-                .WithMany(roleEntity => roleEntity.UserRoles) // each Role entity has many related UserRole entities
-                .HasForeignKey(userRoleEntity => userRoleEntity.RoleId) // FK in the UserRole entity references PK in Role entity
-                .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a Role entity if there are related UserRole entities
+                .HasOne(userRoleEntity => userRoleEntity.Role) 
+                .WithMany(roleEntity => roleEntity.UserRoles)
+                .HasForeignKey(userRoleEntity => userRoleEntity.RoleId) 
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<BookGenre>()
-                .HasOne(bookGenreEntity => bookGenreEntity.Book) // each BookGenre entity has one related Book entity
-                .WithMany(bookEntity => bookEntity.BookGenres) // each Book entity has many related BookGenre entities
-                .HasForeignKey(bookGenreEntity => bookGenreEntity.BookId) // FK in the BookGenre entity references PK in the Book entity
-                .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a Book entity if there are related BookGenre entities
+                .HasOne(bookGenreEntity => bookGenreEntity.Book)
+                .WithMany(bookEntity => bookEntity.BookGenres)
+                .HasForeignKey(bookGenreEntity => bookGenreEntity.BookId) 
+                .OnDelete(DeleteBehavior.NoAction); 
 
             modelBuilder.Entity<BookGenre>()
-                .HasOne(bookGenreEntity => bookGenreEntity.Genre) // each BookGenre entity has one related Book entity
-                .WithMany(genreEntity => genreEntity.BookGenres) // each Book entity has many related BookGenre entities
-                .HasForeignKey(bookGenreEntity => bookGenreEntity.GenreId) // FK in the BookGenre entity references PK in the Book entity
-                .OnDelete(DeleteBehavior.NoAction); // prevents deletion of a Genre entity if there are related BookGenre 
+                .HasOne(bookGenreEntity => bookGenreEntity.Genre) 
+                .WithMany(genreEntity => genreEntity.BookGenres) 
+                .HasForeignKey(bookGenreEntity => bookGenreEntity.GenreId) 
+                .OnDelete(DeleteBehavior.NoAction); 
 
             modelBuilder.Entity<Book>()
-                .HasMany(bookEntity => bookEntity.Authors) // each Book entity has many related Author entities
-                .WithMany(authorEntity => authorEntity.Books) // each Author entity has many related Book entities
+                .HasMany(bookEntity => bookEntity.Authors) 
+                .WithMany(authorEntity => authorEntity.Books) 
                 .UsingEntity<Dictionary<string, object>>(
-                    "BookAuthor", // name of the join table 
+                    "BookAuthor", 
                     j => j.HasOne<Author>()
                           .WithMany()
                           .HasForeignKey("AuthorId")

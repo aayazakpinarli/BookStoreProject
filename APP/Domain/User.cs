@@ -26,8 +26,6 @@ namespace APP.Domain
 
         public DateTime RegistrationDate { get; set; }
 
-        public decimal Score { get; set; }
-
         public bool IsActive { get; set; }
 
         public string Address { get; set; }
