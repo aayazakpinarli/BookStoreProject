@@ -5,6 +5,8 @@ namespace APP.Models
 {
     public class GenreResponse : Response
     {
+
+        [DisplayName("Genre Name")]
         public string GenreName { get; set; }
 
         [DisplayName("Book Count")]

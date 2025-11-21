@@ -10,7 +10,6 @@ namespace APP.Models
         [Required(ErrorMessage = "{0} is required!")]
         [StringLength(150, MinimumLength = 3, ErrorMessage = "{0} must be minimum {2} maximum {1} characters!")]
         [DisplayName("Book Name")]
-
         public string BookName { get; set; }
 
         [DisplayName("Book Description")]
@@ -37,7 +36,6 @@ namespace APP.Models
         [DisplayName("Authors")]
         [Required]
         public List<int> AuthorIds { get; set; } = new List<int>();
-
 
         [DisplayName("Book Genres")]
         public List<int> GenreIds { get; set; } = new List<int>();

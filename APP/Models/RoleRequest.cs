@@ -1,4 +1,5 @@
 ﻿using CORE.APP.Models;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace APP.Models
@@ -7,6 +8,8 @@ namespace APP.Models
     {
         [Required(ErrorMessage = "{0} is required!")]
         [StringLength(25, ErrorMessage = "{0} must be maximum {1} characters!")]
+
+        [DisplayName("Role Name")]
         public string RoleName { get; set; }
     }
 }

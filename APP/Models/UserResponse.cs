@@ -19,10 +19,16 @@ namespace APP.Models
 
         public Genders Gender { get; set; }
 
+
+        [DisplayName("Birth Date")]
         public DateTime? BirthDate { get; set; }
 
+
+        [DisplayName("Registration Date")]
         public DateTime RegistrationDate { get; set; }
 
+
+        [DisplayName("Active")]
         public bool IsActive { get; set; }
 
         public string Address { get; set; }
