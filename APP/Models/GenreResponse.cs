@@ -10,7 +10,7 @@ namespace APP.Models
         public string GenreName { get; set; }
 
         [DisplayName("Book Count")]
-        public int GenreCount { get; set; }
+        public int BookCount { get; set; }
         public string Books { get; set; }
     }
 }

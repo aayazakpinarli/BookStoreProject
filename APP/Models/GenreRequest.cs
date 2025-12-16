@@ -11,5 +11,6 @@ namespace APP.Models
         [DisplayName("Genre Name")]
         public string GenreName { get; set; }
 
+
     }
 }

@@ -14,7 +14,7 @@ namespace APP.Services
 
         protected override IQueryable<Genre> Query(bool isNoTracking = true)
         {
-            return base.Query(isNoTracking)
+            return base.Query(isNoTracking).Include(g => g.BookGenres).ThenInclude(bg => bg.Book)
                 .OrderBy(g => g.GenreName);
         }
 
@@ -25,7 +25,9 @@ namespace APP.Services
                 {
                     Id = g.Id,
                     Guid = g.Guid,
-                    GenreName = g.GenreName
+                    GenreName = g.GenreName,
+                    BookCount = g.BookGenres.Count,
+                    Books = string.Join(", ", g.BookGenres.Select(bg => bg.Book.BookName).ToList())
                 })
                 .ToList();
         }
