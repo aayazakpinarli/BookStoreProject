@@ -41,6 +41,7 @@ namespace BookStoreProject.Controllers
 
             ViewBag.GenreIds = new MultiSelectList(genres, "Id", "GenreName",
                 request?.GenreIds);
+
         }
 
 
@@ -75,6 +76,26 @@ namespace BookStoreProject.Controllers
             return View();
         }
 
+        //public IActionResult GenreCountIncrement(BookRequest request)
+        //{
+        //    var genres = request.GenreIds;
+        //    foreach(var genreId in genres)
+        //    {
+        //        var genre = _genreService.Item(genreId);
+        //        if (genre != null)
+        //        {
+        //            genre.GenreCount += 1;
+        //            var genreRequest = new GenreRequest
+        //            {
+        //                Id = genre.Id,
+        //                GenreName = genre.GenreName,
+        //                GenreCount = genre.GenreCount,
+        //            };
+        //            _genreService.Update(genreRequest);
+        //        }
+        //    }
+        //    return View();
+        //}
 
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(BookRequest request)
@@ -87,9 +108,11 @@ namespace BookStoreProject.Controllers
                     SetTempData(response.Message);
                     return RedirectToAction(nameof(Index), new { id = response.Id });
                 }
+
                 ModelState.AddModelError("", response.Message);
             }
             SetViewData(request);
+
             return View(request);
         }
 

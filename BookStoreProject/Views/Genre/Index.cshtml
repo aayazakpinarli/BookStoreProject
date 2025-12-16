@@ -30,6 +30,7 @@
     {
         <tr>
             <td>@Html.DisplayFor(modelItem => item.GenreName)</td>
+            <td>@Html.DisplayFor(modelItem => item.BookCount)</td>
             <td>
                 <a asp-action="Details" asp-route-id="@item.Id">Genre Details</a> |
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -18,6 +18,10 @@ else
             <th>Genre Name</th>
             <td>@Model.GenreName</td>
         </tr>
+        <tr>
+            <th>Genre Count</th>
+            <td>@Model.BookCount</td>
+        </tr>
     </table>
 
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
