@@ -1,12 +1,11 @@
 ﻿#nullable disable
-using APP.Domain;
 using APP.Models;
 using APP.Services;
-using CORE.APP.Models;
 using CORE.APP.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Diagnostics;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace BookStoreProject.Controllers
 {
@@ -44,14 +43,28 @@ namespace BookStoreProject.Controllers
             TempData[key] = message;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             var list = _userService.List();
             return View(list);
         }
 
+        private bool IsOwnAccount(int id) 
+        {
+            return id.ToString() == (User.Claims.SingleOrDefault(claim => claim.Type == "Id")?.Value ?? string.Empty);
+        }
+
+
+        [Authorize] // Authenticated users only
         public IActionResult Details(int id)
         {
+            if (!IsOwnAccount(id) && !User.IsInRole("Admin"))
+            {
+                SetTempData("You are not authorized for this operation!");
+                return RedirectToAction(nameof(Index));
+            }
+
             var item = _userService.Item(id);
             if (item == null)
             {
@@ -61,6 +74,7 @@ namespace BookStoreProject.Controllers
             return View(item);
         }
 
+        [Authorize(Roles = "Admin")] // Admins only
         public IActionResult Create()
         {
             SetViewData();
@@ -69,7 +83,8 @@ namespace BookStoreProject.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(UserRequest user)
         {
             if (ModelState.IsValid)
@@ -90,8 +105,15 @@ namespace BookStoreProject.Controllers
             return View(user);
         }
 
+        [Authorize]
         public IActionResult Edit(int id)
         {
+            if (!IsOwnAccount(id) && !User.IsInRole("Admin"))
+            {
+                SetTempData("You are not authorized for this operation!");
+                return RedirectToAction(nameof(Index));
+            }
+
             var item = _userService.Edit(id);
             if (item == null)
             {
@@ -109,8 +131,20 @@ namespace BookStoreProject.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize]
         public IActionResult Edit(UserRequest user)
         {
+            if (!IsOwnAccount(user.Id) && !User.IsInRole("Admin"))
+            {
+                SetTempData("You are not authorized for this operation!");
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (!User.IsInRole("Admin"))
+            {
+                ModelState.Remove(nameof(UserRequest.RoleIds));
+            }
+
             if (ModelState.IsValid)
             {
                 var response = _userService.Update(user);
@@ -130,9 +164,16 @@ namespace BookStoreProject.Controllers
 
             return View(user);
         }
-
+        
+        [Authorize]
         public IActionResult Delete(int id)
         {
+            if (!IsOwnAccount(id) && !User.IsInRole("Admin"))
+            {
+                SetTempData("You are not authorized for this operation!");
+                return RedirectToAction(nameof(Index));
+            }
+
             var item = _userService.Item(id);
             if (item == null)
             {
@@ -146,9 +187,71 @@ namespace BookStoreProject.Controllers
         [HttpPost, ValidateAntiForgeryToken, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
+            if (!IsOwnAccount(id) && !User.IsInRole("Admin"))
+            {
+                SetTempData("You are not authorized for this operation!");
+                return RedirectToAction(nameof(Index));
+            }
+
             var response = _userService.Delete(id);
             SetTempData(response.Message);
+
+            // if the user deleted his/her own account, log out the user
+            if (IsOwnAccount(id))
+                return RedirectToAction(nameof(Logout));
+
             return RedirectToAction(nameof(Index));
         }
+
+        [Route("~/[action]")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        [Route("~/[action]")]
+        public async Task<IActionResult> Login(UserLoginRequest request)
+        {
+            if (ModelState.IsValid) 
+            {
+
+                var userService = _userService as UserService; 
+                var response = await userService.Login(request); 
+                if (response.IsSuccessful)
+                    return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("", response.Message);
+            }
+            return View(); 
+        }
+
+        [Route("~/[action]")]
+        public async Task<IActionResult> Logout()
+        {
+            var userService = _userService as UserService;
+            await userService.Logout(); 
+            return RedirectToAction(nameof(Login)); 
+        }
+
+        [Route("~/[action]")]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken, Route("~/[action]")]
+        public IActionResult Register(UserRegisterRequest request)
+        {
+            if (ModelState.IsValid) 
+            {
+                var userService = _userService as UserService; 
+                var response = userService.Register(request); 
+                if (response.IsSuccessful)
+                    return RedirectToAction(nameof(Login)); 
+                ModelState.AddModelError("", response.Message); 
+            }
+            return View(request); 
+        }
+
     }
 }
