@@ -10,6 +10,14 @@ namespace APP.Models
         [DisplayName("User Name")]
         public string UserName { get; set; }
 
+        [StringLength(50, ErrorMessage = "{0} must be maximum {1} characters!")]
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
+
+        [StringLength(50, ErrorMessage = "{0} must be maximum {1} characters!")]
+        [DisplayName("Last Name")]
+        public string LastName { get; set; }
+
         [Required(ErrorMessage = "{0} is required!")]
         [StringLength(15, MinimumLength = 4, ErrorMessage = "{0} must be minimum {2} maximum {1} characters!")]
         public string Password { get; set; }

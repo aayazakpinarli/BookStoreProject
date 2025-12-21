@@ -31,6 +31,20 @@
 			</div>
         </div>
         <div class="row mb-3">
+            <label asp-for="FirstName" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+			    <input asp-for="FirstName" class="form-control" />
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
+            <label asp-for="LastName" class="col-2 col-form-label fw-bold"></label>
+			<div class="col-10">
+			    <input asp-for="LastName" class="form-control" />
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+        </div>
+        <div class="row mb-3">
             <label asp-for="Password" class="col-2 col-form-label fw-bold"></label>
 			<div class="col-10">
 			    <input asp-for="Password" class="form-control" type="password" />
