@@ -1,17 +1,174 @@
-﻿﻿@{
-    @inject IConfiguration configuration
-}
+﻿@using APP.Models
+@model HomeResponse
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewData["Title"] = "Home";
+
+    var genres = Model?.Genres ?? new List<string>();
+    var books = Model?.Books ?? new List<BookResponse>();
+    var selectedCategory = Model?.SelectedCategory ?? "All";
+    var sort = Model?.Sort ?? "newest";
+    var query = Model?.Query ?? "";
+    var totalCount = Model?.TotalCount ?? 0;
+    var page = Model?.Page ?? 1;
+    var totalPages = Model?.TotalPages ?? 1;
+    var pageSize = Model?.PageSize ?? 12;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to @configuration["Title"]</h1> 
-</div>
+@if (TempData["Message"] is not null)
+{
+    <p class="bg-warning text-black">
+        @TempData["Message"]
+    </p>
+}
 
-<p class="text-center">
-    Version: @configuration["App:Version"]
-    <br /> 
-    Date: @configuration["App:Date"]
-</p>
+<section class="bs-hero">
+    <div class="bs-hero__content">
+        <h1>Find your next favorite book</h1>
+        <p>Search, filter, and browse your real database.</p>
+
+        <form method="get" asp-controller="Home" asp-action="Index" class="bs-search">
+            <input type="text" name="q" value="@query" placeholder="Search by title or author..." />
+
+            <select name="category">
+                <option value="All" selected="@(selectedCategory == "All")">All</option>
+                @foreach (var c in genres)
+                {
+                    <option value="@c" selected="@(selectedCategory == c)">@c</option>
+                }
+            </select>
+
+            <select name="sort" aria-label="Sort">
+                <option value="newest" selected="@(sort == "newest")">Newest</option>
+                <option value="price_asc" selected="@(sort == "price_asc")">Price: Low → High</option>
+                <option value="price_desc" selected="@(sort == "price_desc")">Price: High → Low</option>
+                <option value="title_asc" selected="@(sort == "title_asc")">Title: A → Z</option>
+            </select>
+
+            <button type="submit">Apply</button>
+        </form>
+    </div>
+</section>
+
+<section class="bs-section">
+    <div class="bs-section__head">
+        <h2>Books</h2>
+        <span class="bs-muted">@totalCount results</span>
+    </div>
+
+    @if (books.Count == 0)
+    {
+        <p class="bs-muted">No books found.</p>
+    }
+    else
+    {
+        <div class="bs-grid bs-grid--3">
+            @foreach (var b in books)
+            {
+                <article class="bs-card">
+                    <div class="bs-card__cover">
+                        <img src="@(string.IsNullOrWhiteSpace(b.ImagePath) 
+                            ? "/images/books/placeholder.jpg" 
+                            : b.ImagePath)"
+                             alt="@b.BookName cover"
+                             class="book-cover"
+                             onerror="this.src='/images/books/placeholder.jpg';" />
+
+                    </div>
+
+                    <div class="bs-card__body">
+                        <div class="bs-card__meta">
+                            <span class="bs-badge">
+                                @(b.BookGenres != null && b.BookGenres.Count > 0 ? string.Join(", ", b.BookGenres) : "-")
+                            </span>
+                            <span class="bs-rating">
+                                @(b.IsTopSeller ? "Top Seller" : "")
+                            </span>
+                        </div>
+
+                        <h3 class="bs-card__title">@b.BookName</h3>
+                        <p class="bs-card__author">
+                            by @(b.Authors != null && b.Authors.Count > 0 ? string.Join(", ", b.Authors) : "-")
+                        </p>
+
+                        <div class="bs-card__footer">
+                            <div class="bs-price">@b.PriceF</div>
+
+                            <div class="bs-actions">
+                                <a class="bs-btn bs-btn--ghost"
+                                   asp-controller="Books" asp-action="Details" asp-route-id="@b.Id">
+                                    Details
+                                </a>
+                                <button type="button" class="bs-btn" onclick="alert('Add to cart later :)')">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            }
+        </div>
+
+        @if (totalPages > 1)
+        {
+            <div class="bs-pagination">
+                <a class="bs-page"
+                   asp-action="Index"
+                   asp-route-q="@query"
+                   asp-route-category="@selectedCategory"
+                   asp-route-sort="@sort"
+                   asp-route-page="@(page - 1)"
+                   asp-route-pageSize="@pageSize"
+                   aria-disabled="@(page <= 1)">
+                    ← Prev
+                </a>
+
+                <a class="bs-page"
+                   asp-action="Index"
+                   asp-route-q="@query"
+                   asp-route-category="@selectedCategory"
+                   asp-route-sort="@sort"
+                   asp-route-page="@(page + 1)"
+                   asp-route-pageSize="@pageSize"
+                   aria-disabled="@(page >= totalPages)">
+                    Next →
+                </a>
+            </div>
+        }
+    }
+</section>
+
+<style>
+    .bs-grid.bs-grid--3{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:16px;
+    }
+
+    .bs-card{
+        display:flex;
+        flex-direction:column;
+        height:100%;
+    }
+
+    .bs-card__cover{
+        height:220px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        overflow:hidden;
+        background:#f4f4f4;
+    }
+
+    .book-cover{
+        max-height:100%;
+        max-width:100%;
+        object-fit:contain;
+    }
+
+    @@media (max-width: 1000px){
+        .bs-grid.bs-grid--3{ grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @@media (max-width: 720px){
+        .bs-grid.bs-grid--3{ grid-template-columns: 1fr; }
+    }
+</style>
