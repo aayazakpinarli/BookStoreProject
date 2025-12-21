@@ -5,7 +5,7 @@ using CORE.APP.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace MVC.Controllers
+namespace BookStoreProject.Controllers
 {
     public class CityController : Controller
     {

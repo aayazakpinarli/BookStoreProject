@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using CORE.APP.Services;
 using APP.Models;
 
-namespace MVC.Controllers
+namespace BookStoreProject.Controllers
 {
     public class CountryController : Controller
     {
