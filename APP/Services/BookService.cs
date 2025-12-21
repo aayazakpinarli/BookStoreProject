@@ -37,6 +37,7 @@ namespace APP.Services
                 PublishedOn = book.PublishedOn,
                 IsTopSeller = book.IsTopSeller,
                 PriceF = book.Price.ToString("C2"),
+                ImagePath = book.ImagePath,
                 StockAmountF = (book.StockAmount ?? 0).ToString(),
                 BookGenres = book.BookGenres.Select(bg => bg.Genre.GenreName).ToList(),
                 Authors = book.BookAuthors.Select(ba => ba.Author.LastName).ToList()
@@ -61,6 +62,7 @@ namespace APP.Services
                 IsTopSeller = entity.IsTopSeller,
                 Price = entity.Price,
                 PriceF = entity.Price.ToString("C2"),
+                ImagePath = entity.ImagePath,
                 StockAmountF = (entity.StockAmount ?? 0).ToString(),
                 Authors = entity.BookAuthors.Select(ba => ba.Author.LastName).ToList(),
                 BookGenres = entity.BookGenres.Select(bg => bg.Genre.GenreName).ToList()
@@ -102,7 +104,8 @@ namespace APP.Services
                 StockAmount = request.StockAmount,
                 PublishedOn = request.PublishedOn,
                 IsTopSeller = request.IsTopSeller,
-                Price = request.BookPrice
+                Price = request.BookPrice,
+                ImagePath = request.ImagePath
             };
 
             if (request.AuthorIds != null && request.AuthorIds.Any())
@@ -217,6 +220,7 @@ namespace APP.Services
                     PublishedOn = b.PublishedOn,
                     IsTopSeller = b.IsTopSeller,
                     PriceF = b.Price.ToString("C2"),
+                    ImagePath = b.ImagePath,
                     StockAmountF = (b.StockAmount ?? 0).ToString(),
                     Authors = b.BookAuthors.Select(a => a.Author.LastName).ToList(),
                     BookGenres = b.BookGenres.Select(bg => bg.Genre.GenreName).ToList()

@@ -1,6 +1,7 @@
 ﻿using CORE.APP.Models;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace APP.Models
 {
@@ -32,6 +33,10 @@ namespace APP.Models
         [Range(0, 100000, ErrorMessage = "{0} must be between {1} and {2}!")] 
         [DisplayName("Stock Amount")]
         public int? StockAmount { get; set; }
+
+        public IFormFile? ImageFile { get; set; }
+        public string? ImagePath { get; set; }
+
 
         [DisplayName("Authors")]
         [Required]

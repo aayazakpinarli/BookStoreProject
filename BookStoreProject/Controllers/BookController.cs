@@ -1,4 +1,5 @@
 ﻿#nullable disable
+using APP.Domain;
 using APP.Models;
 using APP.Services;
 using CORE.APP.Services;
@@ -76,32 +77,24 @@ namespace BookStoreProject.Controllers
             return View();
         }
 
-        //public IActionResult GenreCountIncrement(BookRequest request)
-        //{
-        //    var genres = request.GenreIds;
-        //    foreach(var genreId in genres)
-        //    {
-        //        var genre = _genreService.Item(genreId);
-        //        if (genre != null)
-        //        {
-        //            genre.GenreCount += 1;
-        //            var genreRequest = new GenreRequest
-        //            {
-        //                Id = genre.Id,
-        //                GenreName = genre.GenreName,
-        //                GenreCount = genre.GenreCount,
-        //            };
-        //            _genreService.Update(genreRequest);
-        //        }
-        //    }
-        //    return View();
-        //}
-
         [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Create(BookRequest request)
         {
             if (ModelState.IsValid)
             {
+                if (request.ImageFile != null && request.ImageFile.Length > 0)
+                {
+                    var fileName = Guid.NewGuid() + Path.GetExtension(request.ImageFile.FileName);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(),
+                                            "wwwroot/images/books",
+                                            fileName);
+
+                    using var stream = new FileStream(path, FileMode.Create);
+                    request.ImageFile.CopyTo(stream);
+
+                    request.ImagePath = "/images/books/" + fileName;
+                }
+
                 var response = _bookService.Create(request);
                 if (response.IsSuccessful)
                 {
@@ -115,7 +108,6 @@ namespace BookStoreProject.Controllers
 
             return View(request);
         }
-
 
         public IActionResult Edit(int id)
         {
@@ -136,6 +128,7 @@ namespace BookStoreProject.Controllers
             if (ModelState.IsValid)
             {
                 var response = _bookService.Update(request);
+
                 if (response.IsSuccessful)
                 {
                     SetTempData(response.Message);

@@ -35,6 +35,8 @@ namespace APP.Models
 
         [DisplayName("Stock Amount")]
         public int? StockAmount { get; set; }
+        public string? ImagePath { get; set; }
+
 
         public List<int> GenreIds { get; set; }
 
@@ -46,6 +48,7 @@ namespace APP.Models
 
         [DisplayName("Stock Amount")]
         public string StockAmountF { get; set; }
+
 
 
         public List<string> Authors { get; set; }

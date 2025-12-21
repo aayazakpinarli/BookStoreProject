@@ -16,6 +16,8 @@ namespace APP.Domain
         public bool IsTopSeller { get; set; }
         public int AuthorId { get; set; }
         public int? StockAmount { get; set; }
+        public string? ImagePath { get; set; }
+
 
         public List<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
 

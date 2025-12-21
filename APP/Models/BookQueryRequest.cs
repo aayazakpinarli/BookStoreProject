@@ -33,5 +33,6 @@ namespace APP.Models
 
         [DisplayName("Has Stock")]
         public bool? HasStock { get; set; }
+
     }
 }
