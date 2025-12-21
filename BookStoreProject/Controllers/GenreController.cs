@@ -1,9 +1,10 @@
 ﻿#nullable disable
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using CORE.APP.Services;
 using APP.Models;
 using APP.Services;
+using CORE.APP.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStoreProject.Controllers
 {
@@ -39,6 +40,7 @@ namespace BookStoreProject.Controllers
             return View(item);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetViewData();
@@ -46,6 +48,7 @@ namespace BookStoreProject.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(GenreRequest genre)
         {
             if (ModelState.IsValid) 
@@ -62,6 +65,7 @@ namespace BookStoreProject.Controllers
             return View(genre); 
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var item = _genreService.Edit(id);
@@ -70,6 +74,7 @@ namespace BookStoreProject.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(GenreRequest genre)
         {
             if (ModelState.IsValid) 
@@ -86,6 +91,7 @@ namespace BookStoreProject.Controllers
             return View(genre); 
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var item = _genreService.Item(id);
@@ -93,6 +99,7 @@ namespace BookStoreProject.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             var response = _genreService.Delete(id);

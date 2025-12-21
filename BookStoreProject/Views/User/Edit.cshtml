@@ -163,15 +163,14 @@
             });
         });
     </script>
-
     <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-
     <script>
+
         $(function () {
 
             $("#countries").off("change");
 
-            $("#countries").change(function() {
+            $("#countries").change(function () {
 
                 $("#cities").empty();
                 $("#countriesmessage").text("");
@@ -181,36 +180,24 @@
                 if (selectedCountryId == "") {
 
                     $("#countriesmessage").text("Please select a country!");
-                    $("#cities").append('<option value="">-- Select Country --</option>');
+                    $("#cities").append('<option value="">-- Select City --</option>');
 
                 } else {
 
-                    $.ajax({
+                    $.getJSON("/City/Json", { countryId: selectedCountryId }, function (cities) {
+                        console.log(cities);
+                            $("#cities").append('<option value="">-- Select City --</option>');
 
-                       cache: false,
-                       url: "/Cities/Json",
-                       type: "get",
-                       dataType: "json",
-                       data: { countryId: selectedCountryId },
-
-                       success: function (cities) {
-
-                           $("#cities").append('<option value="">-- Select City --</option>');
-
-                           for (const city of cities) {
-                               $("#cities").append('<option value="' + city.id + '">' + city.cityName + '</option>');
-                           }
-                       },
-
-                       error: function() {
-                           alert("An error occurred during AJAX request!");
-                           console.log("An error occurred during AJAX request!");
-                       }
-
-                    });
+                            for (const city of cities) {
+                                $("#cities").append('<option value="' + city.id + '">' + city.cityName + '</option>');
+                            }
+                        }
+                    );
                 }
             });
 
         });
+
     </script>
+
 }

@@ -1,10 +1,12 @@
 ﻿#nullable disable
-using Microsoft.AspNetCore.Mvc;
-using CORE.APP.Services;
 using APP.Models;
+using CORE.APP.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookStoreProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private readonly IService<RoleRequest, RoleResponse> _roleService;

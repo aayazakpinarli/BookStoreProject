@@ -2,11 +2,13 @@
 using APP.Models;
 using APP.Services;
 using CORE.APP.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BookStoreProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CityController : Controller
     {
         private readonly IService<CityRequest, CityResponse> _cityService;

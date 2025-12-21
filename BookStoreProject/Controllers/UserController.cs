@@ -185,6 +185,7 @@ namespace BookStoreProject.Controllers
         
 
         [HttpPost, ValidateAntiForgeryToken, ActionName("Delete")]
+        [Authorize]
         public IActionResult DeleteConfirmed(int id)
         {
             if (!IsOwnAccount(id) && !User.IsInRole("Admin"))
@@ -244,7 +245,7 @@ namespace BookStoreProject.Controllers
         {
             if (ModelState.IsValid) 
             {
-                var userService = _userService as UserService; 
+                var userService = _userService as UserService;
                 var response = userService.Register(request); 
                 if (response.IsSuccessful)
                     return RedirectToAction(nameof(Login)); 

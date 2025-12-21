@@ -3,6 +3,7 @@ using APP.Domain;
 using APP.Models;
 using APP.Services;
 using CORE.APP.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -70,7 +71,7 @@ namespace BookStoreProject.Controllers
             return View(item);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetViewData();
@@ -78,6 +79,7 @@ namespace BookStoreProject.Controllers
         }
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(BookRequest request)
         {
             if (ModelState.IsValid)
@@ -109,6 +111,7 @@ namespace BookStoreProject.Controllers
             return View(request);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var request = _bookService.Edit(id);
@@ -123,6 +126,7 @@ namespace BookStoreProject.Controllers
 
         
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(BookRequest request)
         {
             if (ModelState.IsValid)
@@ -140,7 +144,7 @@ namespace BookStoreProject.Controllers
             return View(request);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var item = _bookService.Item(id);
@@ -154,6 +158,7 @@ namespace BookStoreProject.Controllers
 
 
         [HttpPost, ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(BookResponse book)
         {
             if (book is null)
