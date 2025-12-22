@@ -41,7 +41,8 @@ namespace APP.Services
             {
                 Id = entity.Id,
                 Guid = entity.Guid,
-                GenreName = entity.GenreName
+                GenreName = entity.GenreName,
+                BookCount = entity.BookGenres.Count
             };
         }
 
