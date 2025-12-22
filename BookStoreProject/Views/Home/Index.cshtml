@@ -94,13 +94,17 @@
 
                         <div class="bs-card__footer">
                             <div class="bs-price">@b.PriceF</div>
+                            
 
                             <div class="bs-actions">
+                                @if(User.Identity.IsAuthenticated)
+                                {
+                                    <a asp-action="Add" asp-controller="Cart" asp-route-BookId ="@b.Id">Add to Cart</a>
+                                }
                                 <a class="bs-btn bs-btn--ghost"
                                    asp-controller="Book" asp-action="Details" asp-route-id="@b.Id">
                                     Details
                                 </a>
-                                <button type="button" class="bs-btn" onclick="alert('Add to cart later :)')">Add</button>
                             </div>
                         </div>
                     </div>
