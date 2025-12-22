@@ -10,81 +10,83 @@
     <h1>@ViewData["Title"]</h1>
     <hr />
 </div>
+@if (User.IsInRole("Admin"))
+{  
+    @if (Model is not null)
+    {
 
-@if (Model is not null)
-{
-    <div class="@containerDivClass">
+        <div class="@containerDivClass">
 
-        @if (TempData["Message"] is not null)
-        {
-            <p class="text-danger">@TempData["Message"]</p>
-        }
+            @if (TempData["Message"] is not null)
+            {
+                <p class="text-danger">@TempData["Message"]</p>
+            }
 
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.UserName)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.UserName)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.FullName)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.FullName)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.GenderF)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.GenderF)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.BirthDateF)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.BirthDateF)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.RegistrationDateF)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.RegistrationDateF)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.IsActiveF)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.IsActiveF)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Address)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.Address)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Roles)</div>
-            <div class="col-10">
-                @string.Join(", ", Model.Roles)
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Country)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.Country)</div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.City)</div>
-            <div class="col-10">@Html.DisplayFor(m => m.City)</div>
-        </div>
             <div class="row mb-3">
-            <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Books)</div>
-            <div class="col-10">
-                @string.Join(", ", Model.Books)
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.UserName)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.UserName)</div>
             </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.FullName)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.FullName)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.GenderF)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.GenderF)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.BirthDateF)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.BirthDateF)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.RegistrationDateF)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.RegistrationDateF)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.IsActiveF)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.IsActiveF)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Address)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.Address)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Roles)</div>
+                <div class="col-10">
+                    @string.Join(", ", Model.Roles)
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Country)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.Country)</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.City)</div>
+                <div class="col-10">@Html.DisplayFor(m => m.City)</div>
+            </div>
+                <div class="row mb-3">
+                <div class="col-2 fw-bold">@Html.DisplayNameFor(m => m.Books)</div>
+                <div class="col-10">
+                    @string.Join(", ", Model.Books)
+                </div>
+            </div>
+
+            <hr />
+
+
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        
         </div>
-
-        <hr />
-
-        @if (User.IsInRole("Admin"))
-        {  
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
         }
-    </div>
 }
