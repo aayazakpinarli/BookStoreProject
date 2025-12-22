@@ -42,8 +42,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
-builder.Services.AddScoped<ICartService, CartService>();
-
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
