@@ -80,10 +80,14 @@ else
         </tr>
     </table>
 
+    @if(User.Identity.IsAuthenticated)
+    {
+        <a asp-action="Add" asp-controller="Cart" asp-route-BookId ="@Model.Id">Add to Cart</a>
+    }
     @if (User.IsInRole("Admin"))
     {  
         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
         <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
     }
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 }
