@@ -1,4 +1,5 @@
 ﻿using CORE.APP.Models;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace APP.Models
@@ -7,8 +8,11 @@ namespace APP.Models
     {
         [Required]
         [StringLength(30)]
-        public string FirstName { get; set; } 
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
 
+
+        [DisplayName("Last Name")]
         public string LastName { get; set; } 
     }
 }
