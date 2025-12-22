@@ -36,21 +36,28 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Genre" asp-action="">Genres</a>
                         </li>
-                        
-                        @if (User.IsInRole("Admin"))
+
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="City" asp-action="">Cities</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Country" asp-action="">Countries</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="">Roles</a>
-                            </li>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="City" asp-action="">Cities</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Country" asp-action="">Countries</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="">Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="">Roles</a>
+                                </li>
+                            }
                         }
 
                     </ul>
