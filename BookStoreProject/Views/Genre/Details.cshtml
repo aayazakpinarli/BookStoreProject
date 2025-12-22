@@ -23,8 +23,10 @@ else
             <td>@Model.BookCount</td>
         </tr>
     </table>
-
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    @if (User.IsInRole("Admin"))
+    {  
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    }
 }

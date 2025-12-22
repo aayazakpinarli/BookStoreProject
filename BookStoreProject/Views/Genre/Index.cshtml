@@ -17,29 +17,46 @@
         @TempData["Message"]
     </p>
 }
+@if (User.IsInRole("Admin"))
+{
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.First().GenreName)</th>
-            <th>Operations</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>@Html.DisplayFor(modelItem => item.GenreName)</td>
-            <td>@Html.DisplayFor(modelItem => item.BookCount)</td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Genre Details</a> |
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
-
+<div class="row mb-3">
+    <div class="col-10 text-success">
+        @Model.Count() record(s) found.
+    </div>
+    <div class="col-2 text-end">
+    <p>
+        <a asp-action="Create"  class="btn btn-primary">Create New Genre</a>
+    </p>
+    </div>
+</div>
+}
+<div style="height:575px;overflow-y:auto;">
+    <table class="table table-striped table-hover">
+        <thead class="table-secondary">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.First().GenreName)</th>
+                <th>@Html.DisplayNameFor(model => model.First().BookCount)</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.GenreName)</td>
+                <td>@Html.DisplayFor(modelItem => item.BookCount)</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Details</a> 
+                    @if (User.IsInRole("Admin"))
+                    {  
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
 <hr />
-<a asp-action="Create" class="btn btn-primary">Create New Genre</a>
