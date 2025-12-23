@@ -37,6 +37,11 @@ namespace BookStoreProject.Controllers
         public IActionResult Details(int id)
         {
             var item = _genreService.Item(id);
+            if (item is null)
+            {
+                ViewBag.Message = "Genre not found!";
+                return RedirectToAction(nameof(Index));
+            }
             return View(item);
         }
 
@@ -61,7 +66,6 @@ namespace BookStoreProject.Controllers
                 }
                 ModelState.AddModelError("", response.Message); 
             }
-            SetViewData(); 
             return View(genre); 
         }
 
