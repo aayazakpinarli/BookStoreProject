@@ -19,13 +19,14 @@ namespace APP.Services
         public List<AuthorResponse> List()
         {
             return Query(false)
-                .Select(a => new AuthorResponse
+                .Select(entity => new AuthorResponse
                 {
-                    Id = a.Id,
-                    Guid = a.Guid,
-                    FullName = $"{a.FirstName} {a.LastName}",
-                    FirstName = a.FirstName,
-                    LastName = a.LastName
+                    Id = entity.Id,
+                    Guid = entity.Guid,
+                    FullName = $"{entity.FirstName} {entity.LastName}",
+                    FirstName = entity.FirstName,
+                    LastName = entity.LastName,
+                    BookCount = entity.UserBooks.Count
                 })
                 .ToList();
         }
@@ -40,7 +41,9 @@ namespace APP.Services
                 Guid = entity.Guid,
                 FullName = $"{entity.FirstName} {entity.LastName}",
                 FirstName = entity.FirstName,
-                LastName = entity.LastName
+                LastName = entity.LastName,
+                BookCount = entity.UserBooks.Count,
+                Books = entity.UserBooks.Select(ub => ub.Book.BookName).ToList()
             };
         }
 
@@ -88,7 +91,10 @@ namespace APP.Services
         {
             var entity = Query(false).SingleOrDefault(a => a.Id == id);
             if (entity == null) return Error("Author not found!");
+
+            Delete(entity.BookAuthor);
             Delete(entity);
+
             return Success("Author deleted successfully.", entity.Id);
         }
     }

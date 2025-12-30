@@ -16,6 +16,8 @@ namespace APP.Models
 
         [DisplayName("Book Count")]
         public int BookCount { get; set; }
-        public string Books { get; set; }
+
+        [DisplayName("Author's Book")]
+        public List<string> Books { get; set; }
     }
 }
