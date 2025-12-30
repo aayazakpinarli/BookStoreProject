@@ -1,43 +1,38 @@
-﻿@model APP.Domain.Author
+﻿@using APP.Models
+@model AuthorRequest
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewBag.Title = "Edit Book";
 }
 
-<h1>Edit</h1>
+<h1>@ViewBag.Title</h1>
 
-<h4>Author</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Guid" class="control-label"></label>
-                <input asp-for="Guid" class="form-control" />
-                <span asp-validation-for="Guid" class="text-danger"></span>
-            </div>
-            <hr />
-            <div class="row mb-3">
-                <div class="col-10">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="reset" class="btn btn-outline-primary">Reset</button>
-                    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-                </div>
-            </div>
-        </form>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
-</div>
 
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <textarea asp-for="LastName" class="form-control"></textarea>
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+
+    <hr />
+        <div class="row mb-3">
+            <div class="col-10">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="reset" class="btn btn-outline-primary">Reset</button>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

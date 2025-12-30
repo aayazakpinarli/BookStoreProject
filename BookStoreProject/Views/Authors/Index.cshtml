@@ -39,7 +39,16 @@
         <thead class="table-secondary">
             <tr>
                 <th>        
-                    @Html.DisplayNameFor(authorResponse => authorResponse.FullName)
+                    @Html.DisplayNameFor(authorResponse => authorResponse.FirstName)
+                </th>
+                <th>        
+                    @Html.DisplayNameFor(authorResponse => authorResponse.LastName)
+                </th>
+                <th>        
+                    @Html.DisplayNameFor(authorResponse => authorResponse.BookCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(authorResponse => authorResponse.Books)
                 </th>
                 <th>
                     Operations
@@ -51,10 +60,21 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(categoryResponse => item.FirstName)
+                            @Html.DisplayFor(authorResponse => item.FirstName)
                         </td>
                         <td>
-                            @Html.DisplayFor(categoryResponse => item.LastName)
+                            @Html.DisplayFor(authorResponse => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(authorResponse => item.BookCount)
+                        </td>
+                        <td>
+                            <ul>
+                                @foreach(var book in item.Books)
+                                {
+                                    <li>@book</li>
+                                }
+                            </ul>
                         </td>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Author Details</a>
